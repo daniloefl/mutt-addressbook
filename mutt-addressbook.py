@@ -40,7 +40,8 @@ try:
         if 'auth' in config[d]:
             auth = config[d]['auth']
         with ldap3.Connection(config[d]['URI'], binddn, password = password, authentication = auth, auto_bind = True) as conn:
-            print(''.join((d, ' … ')), end='', flush=True)
+            if not bool(args.pc_query):
+                print(''.join((d, ' … ')), end='', flush=True)
             flt = '(&{0}(|(mail={1}*)(cn={1}*)(sn={1}*)(givenName={1}*)))'.format(FILTER, args.searchterm)
             conn.search(config[d]['Base'], flt, attributes=ATTRS)
             entries.extend(conn.entries)
