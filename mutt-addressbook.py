@@ -11,6 +11,10 @@ try:
     p.add_argument('-C', '--configfile', dest='configfile',
                    default='~/.mutt-addressbook.ini',
                    help='Configuration file to read')
+    p.add_argument('-p', '--pc_query', dest='pc_query',
+                   default = False,
+                   action  = 'store_true',
+                   help='Whether to use the pc_query output format')
     args = p.parse_args()
 
     config = configparser.ConfigParser()
@@ -19,7 +23,8 @@ try:
     FILTER = '(mail=*)'
     ATTRS = ['cn', 'mail']
 
-    print('Searching … ', end='', flush=True)
+    if not bool(args.pc_query):
+        print('Searching … ', end='', flush=True)
     entries = []
     for d in config:
         if d == 'DEFAULT':
@@ -40,14 +45,21 @@ try:
             conn.search(config[d]['Base'], flt, attributes=ATTRS)
             entries.extend(conn.entries)
 
-    if len(entries) == 0:
+    if len(entries) == 0 and not bool(args.pc_query):
         print('No entries found!')
         exit(1)
 
-    print('{:d} entries found!'.format(len(entries)))
-    for i in entries:
-        for m in i.mail.values:
-            print('{}\t{}\t{}'.format(m, i.cn[0], i.entry_dn))
+    if not bool(args.pc_query):
+        print('{:d} entries found!'.format(len(entries)))
+        for i in entries:
+            for m in i.mail.values:
+                print('{}\t{}\t{}'.format(m, i.cn[0], i.entry_dn))
+    if bool(args.pc_query):
+        for i in entries:
+            for m in i.mail.values:
+                print('Name    : {}'.format(i.cn[0]))
+                print('EMAIL   : {}'.format(m))
+, i.entry_dn))
 
 except Exception as e:
     print('Error: {}: {}'.format(type(e).__name__, e))
