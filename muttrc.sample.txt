@@ -45,7 +45,7 @@ set send_charset="utf-8"
 auto_view text/html
 
 set query_command = "echo ; /bin/run-parts -a '%s' ~/.mutt/address-providers/|grep '@'"
-
+bind editor <Tab> complete-query
 
 # Status Bar -----------------------------------------
 set status_chars  = " *%A"
