@@ -24,7 +24,13 @@ try:
     for d in config:
         if d == 'DEFAULT':
             continue
-        with ldap3.Connection(config[d]['URI'], auto_bind=True) as conn:
+        user = None
+        password = None
+        if 'user' in config[d]:
+            user = config[d]['user']
+        if 'password' in config[d]:
+            user = config[d]['password']
+        with ldap3.Connection(config[d]['URI'], user = user, password = password, auto_bind = True) as conn:
             print(''.join((d, ' … ')), end='', flush=True)
             flt = '(&{0}(|(mail={1}*)(cn={1}*)(sn={1}*)(givenName={1}*)))'.format(FILTER, args.searchterm)
             conn.search(config[d]['Base'], flt, attributes=ATTRS)

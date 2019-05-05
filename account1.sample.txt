@@ -1,0 +1,25 @@
+
+
+# Default inbox.
+#set imap_authenticators="gssapi"
+set spoolfile = "imaps://USER@imap.gmail.com/INBOX"
+#set imap_authenticators="login"
+#set ssl_verify_host = no
+#set ssl_verify_dates = no
+
+# activate TLS if available on the server
+set ssl_starttls=yes
+# always use SSL when connecting to a server
+set ssl_force_tls=yes
+
+# Alternate email addresses.
+alternates USER@googlemail.com
+
+# Other special folders.
+set mbox      = "imaps://USER@imap.gmail.com/Archive"
+set record    = "imaps://USER@imap.gmail.com/Sent"
+set postponed = "imaps://USER@imap.gmail.com/Drafts"
+set from = USER@gmail.com
+
+set smtp_url="smtp://USER@smtp.gmail.com:587/"
+
