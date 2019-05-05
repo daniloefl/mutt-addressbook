@@ -59,7 +59,6 @@ try:
             for m in i.mail.values:
                 print('Name    : {}'.format(i.cn[0]))
                 print('EMAIL   : {}'.format(m))
-, i.entry_dn))
 
 except Exception as e:
     print('Error: {}: {}'.format(type(e).__name__, e))
