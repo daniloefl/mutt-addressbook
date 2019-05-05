@@ -26,11 +26,15 @@ try:
             continue
         user = None
         password = None
-        if 'user' in config[d]:
-            user = config[d]['user']
+        auth = 'SIMPLE'
+        binddn = None
+        if 'Bind' in config[d]:
+            binddn = config[d]['Bind']
         if 'password' in config[d]:
-            user = config[d]['password']
-        with ldap3.Connection(config[d]['URI'], user = user, password = password, auto_bind = True) as conn:
+            password = config[d]['password']
+        if 'auth' in config[d]:
+            auth = config[d]['auth']
+        with ldap3.Connection(config[d]['URI'], binddn, password = password, authentication = auth, auto_bind = True) as conn:
             print(''.join((d, ' … ')), end='', flush=True)
             flt = '(&{0}(|(mail={1}*)(cn={1}*)(sn={1}*)(givenName={1}*)))'.format(FILTER, args.searchterm)
             conn.search(config[d]['Base'], flt, attributes=ATTRS)
