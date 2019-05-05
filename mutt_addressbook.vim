@@ -4,7 +4,7 @@
 " Website:     http://github.com/dbeniamine/vim-mail.vim
 
 if(!has_key(g:VimMailContactsCommands, "mutt_addressbook"))
-    let g:VimMailContactsCommands['mutt_addressbook']={ 'query' : "~/workspace/mutt-addressbook/mutt-addressbook.py -p ",
+    let g:VimMailContactsCommands['mutt_addressbook']={ 'query' : "mutt-addressbook.py -p ",
                 \'sync': ""}
 endif
 
